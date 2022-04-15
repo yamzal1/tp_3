@@ -141,7 +141,7 @@ class _JobDialogState extends State<JobDialog> {
 
   Widget buildName() => CupertinoTextFormFieldRow(
         controller: nameController,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         placeholder: 'Nom de l\'entreprise',
@@ -151,18 +151,13 @@ class _JobDialogState extends State<JobDialog> {
       );
 
   Widget buildBrut() => CupertinoTextFormFieldRow(
-        // decoration: const InputDecoration(
-        //     border: OutlineInputBorder(),
-        //     icon: Icon(Icons.euro),
-        //     labelText: 'Mensuel Brut',
-        //     suffixText: "EUR"),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         placeholder: 'Salaire brut',
         keyboardType: TextInputType.number,
         validator: (amount) => amount != null && double.tryParse(amount) == null
-            ? 'Saisir un nombre valide'
+            ? 'Veuillez saisir un nombre valide'
             : null,
         onChanged: (text) {
           onBrutChange();
@@ -171,13 +166,13 @@ class _JobDialogState extends State<JobDialog> {
       );
 
   Widget buildNet() => CupertinoTextFormFieldRow(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         placeholder: 'Salaire net',
         keyboardType: TextInputType.number,
         validator: (amount) => amount != null && double.tryParse(amount) == null
-            ? 'Saisir un nombre valide'
+            ? 'Veuillez saisir un nombre valide'
             : null,
         onChanged: (text) {
           onNetChange();
@@ -191,70 +186,48 @@ class _JobDialogState extends State<JobDialog> {
           item,
         ),
       );
-  //
-  // Widget buildStatut() => DropdownButtonFormField<String>(
-  //       decoration: const InputDecoration(
-  //         border: OutlineInputBorder(),
-  //         icon: Icon(Icons.account_circle),
-  //         labelText: 'Statut',
-  //       ),
-  //       value: dropdownValue,
-  //       items: items.map(builMenuItem).toList(),
-  //       onChanged: (value) => setState(() {
-  //         if (value != null) {
-  //           dropdownValue = value;
-  //           dropdownIndex = items.indexOf(value);
-  //         }
-  //         onBrutChange();
-  //       }),
-  //       validator: (name) => name != null && name.isEmpty ? 'Statut' : null,
-  //     );
 
   Widget buildStatut() => SizedBox(
-    height: 200.0,
-
-    child: CupertinoPicker(
-          children: [
-            Text('Non-cadre 22%',),
-            Text('Cadre 25%',),
-            Text('Fonction publique 15%',),
-            Text('Profession libérale 45%',),
+        height: 200.0,
+//TODO Il y a un bug avec cette liste, la selection ne fonctionne pas toujours
+        child: CupertinoPicker(
+          children: const [
+            Text('Non-cadre 22%'),
+            Text('Cadre 25%'),
+            Text('Fonction publique 15%'),
+            Text('Profession libérale 45%'),
             Text('Portage salarial 51%'),
           ],
-
           itemExtent: 25,
           diameterRatio: 1,
           useMagnifier: false,
           magnification: 1.3,
           looping: false,
-
-      onSelectedItemChanged: (value) => setState(() {
-        if (value != null) {
-          dropdownValue = value as String?;
-          dropdownIndex = value;
-        }
-        onBrutChange();
-      }),
-    ),
-
-  );
-
-
+          onSelectedItemChanged: (value) => setState(() {
+            if (value != null) {
+              dropdownValue = value as String?;
+              dropdownIndex = value;
+            }
+            onBrutChange();
+          }),
+        ),
+      );
 
   Widget buildComment() => CupertinoTextFormFieldRow(
         controller: commentController,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
         ),
         placeholder: 'Commentaires',
         maxLines: 5,
         keyboardType: TextInputType.multiline,
-        validator: (name) =>
-            name != null && name.isEmpty ? 'Saisir un commentaire' : null,
+        validator: (name) => name != null && name.isEmpty
+            ? 'Veuillez saisir un commentaire'
+            : null,
       );
 
   Widget buildCancelButton(BuildContext context) => TextButton(
-        child: Text('Annuler'),
+        child: const Text('Annuler'),
         onPressed: () => Navigator.of(context).pop(),
       );
 

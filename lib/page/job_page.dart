@@ -23,47 +23,42 @@ class _TransactionPageState extends State<JobPage> {
 
   @override
   Widget build(BuildContext context) {
-  return CupertinoPageScaffold(
-        // navigationBar : CupertinoNavigationBar(
-        //   title: const Text('Offres d\'emploi'),
-        //   centerTitle: true,
-        // ),
-        navigationBar: CupertinoNavigationBar(
-          // Try removing opacity to observe the lack of a blur effect and of sliding content.
-          backgroundColor: CupertinoColors.systemGrey.withOpacity(0.2),
-          middle: const Text('Offres d\'emploi'),
-          trailing: CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: Icon(CupertinoIcons.add, size: 35,),
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => JobDialog(
-                onClickedDone: addJob,
-              ),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.systemGrey.withOpacity(0.2),
+        middle: const Text('Offres d\'emploi'),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: const Icon(
+            CupertinoIcons.add,
+            size: 35,
+          ),
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => JobDialog(
+              onClickedDone: addJob,
             ),
           ),
         ),
-        child : ValueListenableBuilder<Box<Job>>(
-          valueListenable: Boxes.getJob().listenable(),
-          builder: (context, box, _) {
-            final transactions = box.values.toList().cast<Job>();
+      ),
+      child: ValueListenableBuilder<Box<Job>>(
+        valueListenable: Boxes.getJob().listenable(),
+        builder: (context, box, _) {
+          final transactions = box.values.toList().cast<Job>();
 
-            return buildContent(transactions);
-          },
-        ),
-
-
+          return buildContent(transactions);
+        },
+      ),
     );
-}
+  }
+
   Widget buildContent(List<Job> jobs) {
     if (jobs.isEmpty) {
       return const Center(
           child: DefaultTextStyle(
-            style: TextStyle(fontSize: 24),
-            child: Text('Cliquez sur + pour ajouter une offre'),
-          )
-
-      );
+        style: TextStyle(fontSize: 24),
+        child: Text('Cliquez sur + pour ajouter une offre'),
+      ));
     } else {
       return Column(
         children: [
@@ -84,10 +79,10 @@ class _TransactionPageState extends State<JobPage> {
     }
   }
 
-  Widget buildJob(BuildContext context, Job job,) {
-    final name = job.name;
-    final brut = job.brut.toString();
-
+  Widget buildJob(
+    BuildContext context,
+    Job job,
+  ) {
     return Card(
       color: Colors.white,
       child: ExpansionTile(
@@ -109,18 +104,16 @@ class _TransactionPageState extends State<JobPage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
+                      children: [
                         Text(
-                          "Salaire brut : "+ job.brut.toString() + " €",
-
+                          "Salaire brut : " + job.brut.toString() + " €",
                           style: TextStyle(fontSize: 18),
                         )
-
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
+                      children: [
                         Text(
                           "Salaire net : " + job.net.toString() + " €",
                           style: TextStyle(fontSize: 18),
@@ -129,10 +122,9 @@ class _TransactionPageState extends State<JobPage> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
+                      children: [
                         Text(
                           "Statut : " + job.statut.toString(),
-
                           style: TextStyle(fontSize: 18),
                         )
                       ],
@@ -140,7 +132,6 @@ class _TransactionPageState extends State<JobPage> {
                   ],
                 ),
               ),
-
             ],
           ),
           buildButtons(context, job),
@@ -151,16 +142,14 @@ class _TransactionPageState extends State<JobPage> {
 
   Widget buildButtons(BuildContext context, Job job) => Row(
         children: [
-
           Expanded(
             child: TextButton.icon(
               label: const Text('Supprimer'),
               icon: const Icon(Icons.delete),
               onPressed: () => Navigator.of(context, rootNavigator: true).push(
                 MaterialPageRoute(
-                  builder: (context) =>DeleteDialog(
-                    job: job,
-                    onClickedDelete: () => deleteJob(job)),
+                  builder: (context) => DeleteDialog(
+                      job: job, onClickedDelete: () => deleteJob(job)),
                 ),
               ),
             ),
@@ -183,7 +172,13 @@ class _TransactionPageState extends State<JobPage> {
         ],
       );
 
-  Future addJob(String name, double brut, double net, String statut, String comment,) async {
+  Future addJob(
+    String name,
+    double brut,
+    double net,
+    String statut,
+    String comment,
+  ) async {
     final job = Job()
       ..name = name
       ..brut = brut
@@ -195,26 +190,24 @@ class _TransactionPageState extends State<JobPage> {
     box.add(job);
   }
 
-  void editJob(Job job, String name, double brut, double net, String statut, String comment,) {
-
-
+  void editJob(
+    Job job,
+    String name,
+    double brut,
+    double net,
+    String statut,
+    String comment,
+  ) {
     job.name = name;
     job.brut = brut;
     job.net = net;
     job.statut = statut;
     job.comment = comment;
 
-    // final box = Boxes.getTransactions();
-    // box.put(transaction.key, transaction);
-
     job.save();
   }
 
   void deleteJob(Job job) {
-    // final box = Boxes.getTransactions();
-    // box.delete(transaction.key);
-
     job.delete();
-    //setState(() => transactions.remove(transaction));
   }
 }

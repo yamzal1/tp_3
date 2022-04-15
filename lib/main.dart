@@ -9,12 +9,15 @@ Future <void> main() async {
   Hive.registerAdapter(JobAdapter());
   await Hive.openBox<Job>('job');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Offres d\'emploi';
+  static const String title = 'Offres d\'emploi';
 
+  const MyApp({Key? key}) : super(key: key);
+
+  //TODO Remplacer MaterialApp par son équivalent cupertino
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,

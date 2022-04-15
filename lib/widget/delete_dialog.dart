@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import '../model/job.dart';
 
 class DeleteDialog extends StatefulWidget {
@@ -36,7 +35,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: Text(title),
-      content: Text("êtes-vous sûr de vouloir supprimer cette offre ?"),
+      content: const Text("Êtes-vous sûr de vouloir supprimer cette offre ?"),
       actions: [
         buildCancelButton(context),
         buildDeleteButton(context),
@@ -45,13 +44,13 @@ class _DeleteDialogState extends State<DeleteDialog> {
   }
 
   Widget buildCancelButton(BuildContext context) => TextButton(
-    child: Text('Annuler'),
+    child: const Text('Annuler'),
     onPressed: () => Navigator.of(context).pop(),
   );
 
   Widget buildDeleteButton(BuildContext context) {
     return TextButton(
-        child: Text("Supprimer"),
+        child: const Text("Supprimer"),
         onPressed: () async {
           widget.onClickedDelete();
           Navigator.of(context).pop();
